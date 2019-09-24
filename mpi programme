@@ -1,0 +1,33 @@
+mydata segment
+    str1 DB 'BMIIT'
+    str2 DB 'BMIIT'
+    equal DB 00
+mydata ends
+
+mycode segment
+    start:
+            assume CS:mycode,DS:mydata
+            mov AX,mydata
+            mov DS,AX
+            mov ES,AX
+            mov CX,5
+            
+            LEA SI,str1
+            LEA DI,str2
+            
+            CLD  
+            
+            REPE cmpsb
+            
+            jz label1
+            jnz label2
+                
+            label1:mov equal,01
+            jmp exit
+            
+            label2:mov equal,00
+            
+            exit:mov AX,4c00h
+            int 21h
+mycode ends
+end start
